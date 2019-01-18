@@ -3,11 +3,11 @@
 This document proposes two new CSS properties `math-style` and
 `math-script-level` controlling how the `font-size` evolves inside
 mathematical constructions. More generally `math-style` may be used to indicate
-to implementation of math layout whether
+to implementations of math layout whether
 [logical height](https://drafts.csswg.org/css-writing-modes-4/#extent) should
 be minimized. For further discussions
 on this proposal see
-[math-variant comments](math-script-level-and-math-style-comments.md).
+[math-script-level and math-style comments](math-script-level-and-math-style-comments.md).
 
 ## Examples
 
@@ -25,14 +25,15 @@ on this proposal see
   actual `math-style` on the the fraction.
 
 * The LaTeX formula `$$A^{A^A} + \sqrt[A]{A} + \frac{A+\frac{A}{A}}{A}$$`
-  uses different text size. One could style equivalent HTML nodes with the
+  uses text of different sizes.
+  One could style equivalent HTML nodes with the
   `font-size` property but it could be more convenient to set the
   `math-script-level` (base, scripts, numerator/denominator) and
   `math-style` values (initially 'display' mode but 'inline' mode in inner
   constructions).
   ![$$A^{A^A} + \sqrt[A]{A} + \frac{A+\frac{A}{A}}{A}$$](/math-script-level-and-math-style-latex-example.png)
 
-* Polyfills and native implementation can emulate MathML behavior such as
+* Polyfills and native implementations can emulate MathML behavior such as
   `<mstyle displaystyle="true">...</mstyle>`,
   `<mstyle scriptlevel="2">...</mstyle>` or `<mstyle scriptlevel="+3">...</mstyle>` by mapping to `math-style: display`, `math-script-level: 2;` and
   `math-script-level: add 3;` respectively.
@@ -42,16 +43,16 @@ on this proposal see
 * Mathematical formulas are made of several nested constructions. Readers expect
   that each time you go deeper in the expressions (e.g. enter a superscript)
   text will be automatically scaled down. This is can be achieved by
-  implementations by adding relative or absolute `font-size` rules on each
+  adding relative or absolute `font-size` rules on each
   relevant node, but that's a bit tedious and error-prone.
 
-* The actual rules for the text size change are a bit complex, and involves
+* The actual rules for the text size change are a bit complex, and involve
   concepts similar to `math-script-level` (how deep we are in the expression)
-  and `math-style` (do we try to minimize
+  and `math-style` (whether we try to minimize
   [logical height](https://drafts.csswg.org/css-writing-modes-4/#extent)).
   In the TeX example
   `$$A^{A^A} + \sqrt[A]{A} + \frac{A+\frac{A}{A}}{A}$$`,
-  the `A` letter is scaled down once when entering the superscripts but even
+  the `A` letter is scaled down when entering the superscripts but even
   faster when entering a root's prescript. Also it is scaled down when entering
   the inner fraction but not when entering the outer one. These cases on a
   basic example suggest that a standardized approach would be important to
@@ -66,13 +67,16 @@ on this proposal see
   such as changing the layout of under/over scripts,
   reducing spacing or fraction's
   line thickness, etc Again, it's handy to use CSS for the inheritance and
-  overriding of this `math-style` value even if most of the effect happens
+  overriding of this `math-style` value even if most of its effect happens
   in the layout and painting phase.
+
+* `math-script-level` and `math-style` are purely stylistic features so it makes
+  sense to have them integrated in the style system.
 
 * These properties intend to implement the following MathML attributes:
   `display`, `displaystyle` and `scriptlevel` attributes. Again, there are
-  complex interactions between these, MathML elements and `font-size`. Hence
-  relying on native CSS properties seems the proper to implement it.
+  complex interactions between these attributes, MathML elements and `font-size`. Hence
+  relying on native CSS properties seems the proper way to implement it.
 
 * These properties can be used to emulate TeX's `\displaystyle`, `\textstyle`,
  `\scriptstyle`, and `\scriptscriptstyle` modes, they correspond to
@@ -87,9 +91,6 @@ on this proposal see
   parameters. If they are considered in the future, having actual script level
   values would help implementers.
 
-* `math-script-level` and `math-style` are purely stylistic features so it makes
-  sense to have them integrated in the style system.
-
 ## Status in Web Engines
 
 * The `displaystyle` and `scriptlevel` attributes are implemented in Gecko and
@@ -102,7 +103,7 @@ on this proposal see
   Relying on `math-script-level` would allow a cleaner and more complete
   implementation.
 * `displaystyle` and `scriptlevel` attributes are tested in MathML WPT, Gecko
-  and WebKit tests. Having this separate properties could allow to do pure CSS
+  and WebKit tests. Having these separate properties could allow to do pure CSS
   tests related to the interaction with `font-size`.
 
 ## Proposal
@@ -127,7 +128,8 @@ on this proposal see
 If the value of `math-style` is 'inline', the math layout on descendants
 should try to minimize the
 [logical height](https://drafts.csswg.org/css-writing-modes-4/#extent).
-This includes how `font-size` is changed when `math-script-level: auto` as well
+This includes how `font-size` is changed when `math-script-level` is 'auto'
+as well
 miscelleanous layout rules described for the `displaystyle` attribute of MathML.
 If the value of `math-style` is 'display', the math layout should not take
 such constraints into consideration.
@@ -137,7 +139,7 @@ such constraints into consideration.
 <table>
   <tbody>
     <tr><th>Name:</th><td>math-script-level'</td></tr>
-    <tr><th>Value:</th><td>add? &amp;&amp; &lt;integer&gt;</td></tr>
+    <tr><th>Value:</th><td>auto || add? &amp;&amp; &lt;integer&gt;</td></tr>
     <tr><th>Initial:</th><td>inline</td></tr>
     <tr><th>Applies to:</th><td>All elements</td></tr>
     <tr><th>Inherited:</th><td>yes</td></tr>

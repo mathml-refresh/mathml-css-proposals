@@ -1,4 +1,4 @@
-# MathML CG - CSS proposals
+# MathML CSS proposals
 
 This repository contains proposals for new CSS properties in order to help math
 rendering in browsers:

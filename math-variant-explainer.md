@@ -5,7 +5,9 @@ This document proposes a new CSS property `math-variant` similar to
 in order to map alphanumeric text to equivalent
 [Mathematical Alphanumeric Symbols](https://en.wikipedia.org/wiki/Mathematical_Alphanumeric_Symbols). It will help implementers of MathML (or more generally of
 tools to generate or display math content) by taking care of inheritance,
-character mapping and miscellaneous other use cases. For further discussions
+character mapping and miscellaneous other use cases. See
+[math-variant tables](math-variant-tables.md) for detailed per-character
+conversion. For further discussions
 on this proposal see [math-variant comments](math-variant-comments.md).
 
 ## Examples
@@ -17,8 +19,8 @@ on this proposal see [math-variant comments](math-variant-comments.md).
 * The LaTeX formula
   `\exp{\mathbf{A}} \in {{\mathfrak{gl}}_n\left(\mathbb R\right)}`
   is written with the exponential function using "normal" variant,
-  matrix A using "bold" variant, lie alegra using "fraktur" variant,
-  integer n using "italic" variant and set of numbers R using "double-struck"
+  the matrix A using "bold" variant, the Lie algebra using "fraktur" variant,
+  the integer n using "italic" variant and the set of numbers R using "double-struck"
   variant. The `\math*` commands could just be mapped to
   equivalent HTML nodes, styled with the `math-variant` property.
   ![\exp{\mathbf{A}} \in {{\mathfrak{gl}}_n\left(\mathbb R\right)}](/math-variant-latex-example.png)
@@ -32,7 +34,7 @@ on this proposal see [math-variant comments](math-variant-comments.md).
   STIX Math font. It would not try to look into the (non-existent) STIX Math
   bold font or emulate bold style from the F glyph of the STIX Math font.
   However, if STIX Math font is not available and none of the fonts used
-  actually have a glyph for U+1D46D it will may this kind of fallback behavior,
+  actually have a glyph for U+1D46D it may use this kind of fallback behavior,
   as it is done for `font-weight: bold`.
 
 * Polyfills can emulate MathML behavior of
@@ -93,7 +95,7 @@ on this proposal see [math-variant comments](math-variant-comments.md).
   doing other minor adjustments.
 * The `mathvariant` attribute is partially implemented in WebKit using some custom
   CSS-like inheritance and changing text rendering in token
-  elements but only works for single variable (e.g. does not handle
+  elements but only works for single-character identifier (e.g. does not handle
   `<mi mathvariant="fraktur">sl</mi>`). Relying on a CSS property would
   allow a cleaner and more complete implementation.
 * There are [MathML tests for mathvariant](https://github.com/web-platform-tests/wpt/tree/master/mathml/relations/css-styling) that could easily be converted
