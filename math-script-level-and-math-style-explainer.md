@@ -168,7 +168,7 @@ If the specified value of `math-script-level` is of the form '&lt;integer&gt;'
 then the computed value of `math-script-level` is set to the specified integer.
 
 If `font-size` is specified then `math-script-level` does not affect the
-computed value of ̀font-size`.
+computed value of `font-size`.
 Otherwise, if A is the inherited `math-script-level` and B the computed
 `math-script-level` then the computed value of `font-size`
 is obtained by multiplying the inherited value of `font-size` by the nonzero
