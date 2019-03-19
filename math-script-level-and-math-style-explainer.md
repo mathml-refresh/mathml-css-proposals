@@ -171,7 +171,7 @@ If ̀font-size` is specified then `math-script-level` does not affect the
 computed value of ̀font-size`.
 Otherwise, if A is the inherited `math-script-level` and B the computed
 `math-script-level` then the computed value of `font-size`
-is obtained by multiplying the inherited value of ̀font-size` by the nonzero
+is obtained by multiplying the inherited value of `font-size` by the nonzero
 scale factor S<sub>A,B</sub>, defined recursively as follows:
 * S<sub>p,p</sub> = 1 for every integer p.
 * S<sub>0,1</sub> = `scriptPercentScaleDown` if a nonzero value is provided by
@@ -179,12 +179,13 @@ scale factor S<sub>A,B</sub>, defined recursively as follows:
   default S<sub>0,1</sub> = 0.8.
 * S<sub>0,2</sub> = `scriptScriptPercentScaleDown` if a nonzero value is
   provided by the OpenType MATH table of the current font. Otherwise use the
-  suggested default S<sub>0,1</sub> = 0.6.
+  suggested default S<sub>0,2</sub> = 0.6.
 * S<sub>1,2</sub> = S<sub>0,2</sub> / S<sub>0,1</sub>.
 * S<sub>p,p+1</sub> = 0.71 for every integer p ≠ 0, 1.
-* S<sub>p,q</sub> is the product of S<sub>i,i+1</sub> where i ranges from p to
+* S<sub>p,q</sub> is the product of the S<sub>i,i+1</sub>'s
+  where i ranges from p to
   q - 1 for every integers p, q such that q ≥ p + 2 and (p,q) ≠ (0,2).
-* S<sub>p,q</sub> = 1 / S<sub>p,q</sub> for every integers p, q such that
+* S<sub>p,q</sub> = 1 / S<sub>q,p</sub> for every integers p, q such that
   q < p.
 
 The clamping of `font-size` implied by ̀font-min-size` and `font-max-size` must
