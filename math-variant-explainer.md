@@ -106,9 +106,9 @@ on this proposal see [math-variant comments](math-variant-comments.md).
 
 The proposal is to extend the `text-transform` properties with new values:
 
-`none | [capitalize | uppercase | lowercase ] || full-width || full-size-kana | math(auto) | math(normal) | math(bold) | math(italic) | math(bold-italic) | math(double-struck) | math(bold-fraktur) | math(script) | math(bold-script) | math(fraktur) | math(sans-serif) | math(bold-sans-serif) | math(sans-serif-italic) | math(sans-serif-bold-italic) | math(monospace) | math(initial) | math(tailed) | math(looped) | math(stretched)`
+`none | [capitalize | uppercase | lowercase ] || full-width || full-size-kana | math(auto) | math(bold) | math(italic) | math(bold-italic) | math(double-struck) | math(bold-fraktur) | math(script) | math(bold-script) | math(fraktur) | math(sans-serif) | math(bold-sans-serif) | math(sans-serif-italic) | math(sans-serif-bold-italic) | math(monospace) | math(initial) | math(tailed) | math(looped) | math(stretched)`
 
-The 'math(normal)' value has no effects. If the text is the unique character of
+If the text is the unique character of
 a text node which is itself the unique child of an
 [mi element](https://www.w3.org/Math/draft-spec/chapter3.html#presm.mi)
 then 'math(auto)' has the same effect as 'math(italic)', otherwise it has no
@@ -135,3 +135,4 @@ The `mathvariant` attribute can be implemented natively by relying on the
 `text-transform` property. For any MathML element accepting the `mathvariant`
 attribute that has a `mathvariant` attribute with a valid value, set the CSS
 property on that element to the corresponding `text-transform` value.
+The `normal` value is mapped to 'none'.
