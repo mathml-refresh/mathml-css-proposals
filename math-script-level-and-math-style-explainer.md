@@ -188,7 +188,7 @@ scale factor S<sub>A,B</sub>, defined recursively as follows:
 * S<sub>p,q</sub> = 1 / S<sub>q,p</sub> for every integers p, q such that
   q < p.
 
-The clamping of `font-size` implied by ̀font-min-size` and `font-max-size` must
+The clamping of `font-size` implied by `font-min-size` and `font-max-size` must
 apply after the change due to `math-script-level`.
 
 ### Native implementations of `display`, `displaystyle` and `scriptlevel`
