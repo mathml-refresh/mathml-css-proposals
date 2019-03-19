@@ -1,7 +1,7 @@
 # `math-variant` explainer
 
-This document proposes a new CSS property `math-variant` similar to
-[text-transform](https://drafts.csswg.org/css-text-3/#text-transform)
+This document proposes new values for the
+[text-transform](https://drafts.csswg.org/css-text-3/#text-transform) properties
 in order to map alphanumeric text to equivalent
 [Mathematical Alphanumeric Symbols](https://en.wikipedia.org/wiki/Mathematical_Alphanumeric_Symbols). It will help implementers of MathML (or more generally of
 tools to generate or display math content) by taking care of inheritance,
@@ -12,7 +12,7 @@ on this proposal see [math-variant comments](math-variant-comments.md).
 
 ## Examples
 
-* `<span style="math-variant: fraktur">A</span>` would render the same as
+* `<span style="text-transform: math(fraktur)">A</span>` would render the same as
   `<span>𝔄</span>` or `<span>&#x1D504;</span>`
   (U+1D504 MATHEMATICAL FRAKTUR CAPITAL A).
 
@@ -22,14 +22,14 @@ on this proposal see [math-variant comments](math-variant-comments.md).
   the matrix A using "bold" variant, the Lie algebra using "fraktur" variant,
   the integer n using "italic" variant and the set of numbers R using "double-struck"
   variant. The `\math*` commands could just be mapped to
-  equivalent HTML nodes, styled with the `math-variant` property.
+  equivalent HTML nodes, styled with the `text-transform` property.
   ![\exp{\mathbf{A}} \in {{\mathfrak{gl}}_n\left(\mathbb R\right)}](/math-variant-latex-example.png)
 
 * A simple math formula like
-  `<span style="math-variant: italic" style>x + y</span>` would have x, y in
+  `<span style="text-transform: math(italic)" style>x + y</span>` would have x, y in
    italic but not operator + (contrary to `font-style: italic`).
 
-* `<span style="font-family: STIX Math; math-variant: bold">F</span>` would use
+* `<span style="font-family: STIX Math; text-transform: math(bold)">F</span>` would use
   the glyph for U+1D46D MATHEMATICAL BOLD ITALIC CAPITAL F contained in the
   STIX Math font. It would not try to look into the (non-existent) STIX Math
   bold font or emulate bold style from the F glyph of the STIX Math font.
@@ -39,9 +39,9 @@ on this proposal see [math-variant comments](math-variant-comments.md).
 
 * Polyfills can emulate MathML behavior of
   `<mstyle mathvariant="double-struck">...</mstyle>`
-  via `mstyle[mathvariant="double-struck"] { math-variant: double-struck; }`.
+  via `mstyle[mathvariant="double-struck"] { text-transform: math(double-struck); }`.
   More generally, native implementations could directly map the MathML
-  `mathvariant` attribute to the CSS `math-variant` property.
+  `mathvariant` attribute to the CSS `text-transform` property.
 
 ## Rationale
 
@@ -87,50 +87,35 @@ on this proposal see [math-variant comments](math-variant-comments.md).
 
 ## Status in Web Engines
 
-* `math-variant` is similar to `text-transform`, which is implemented in
-  all engines.
+* `text-transform` is implemented in all engines.
 * The `mathvariant` attribute is implemented in Gecko and Stylo via an internal
   CSS property.
-  It could be aligned with this specification by exposing the property and
-  doing other minor adjustments.
+  It could be aligned with this specification with some refactoring and adjustments.
 * The `mathvariant` attribute is partially implemented in WebKit using some custom
   CSS-like inheritance and changing text rendering in token
   elements but only works for single-character identifier (e.g. does not handle
   `<mi mathvariant="fraktur">sl</mi>`). Relying on a CSS property would
   allow a cleaner and more complete implementation.
 * There are [MathML tests for mathvariant](https://github.com/web-platform-tests/wpt/tree/master/mathml/relations/css-styling) that could easily be converted
-  to test CSS `math-variant`. Gecko has layout tests for other edge cases
+  to test the new CSS `text-transform` values. Gecko has layout tests for other edge cases
   described in this specification.
 
 ## Proposal
 
-### CSS `math-variant` property
+### New CSS `text-transform` values
 
-<table>
-  <tbody>
-    <tr><th>Name:</th><td>'math-variant'</td></tr>
-    <tr><th>Value:</th><td>auto | normal | bold | italic | bold-italic | double-struck | bold-fraktur | script | bold-script | fraktur | sans-serif | bold-sans-serif | sans-serif-italic | sans-serif-bold-italic | monospace | initial | tailed | looped | stretched</td></tr>
-    <tr><th>Initial:</th><td>auto</td></tr>
-    <tr><th>Applies to:</th><td>All elements</td></tr>
-    <tr><th>Inherited:</th><td>yes</td></tr>
-    <tr><th>Percentages:</th><td>n/a</td></tr>
-    <tr><th>Computed value:</th><td>specified keyword</td></tr>
-    <tr><th>Canonical order:</th><td>n/a</td></tr>
-    <tr><th>Animation type:</th><td>not animatable</td></tr>
-  </tbody>
-</table>
+The proposal is to extend the `text-transform` properties with new values:
 
-This property transforms the text rendered visually or exposed to assistive
-technologies. It has no effect on the underlying content or during conversion
-to plaintext and must not affect the content of a plain text copy & paste
-operation.
+`none | [capitalize | uppercase | lowercase ] || full-width || full-size-kana | math(auto) | math(normal) | math(bold) | math(italic) | math(bold)-italic | math(double)-struck | math(bold)-fraktur | math(script) | math(bold)-script | math(fraktur) | math(sans)-serif | math(bold)-sans-serif | math(sans)-serif-italic | math(sans)-serif-bold-italic | math(monospace) | math(initial) | math(tailed) | math(looped) | math(stretched)`
 
-The 'normal' value has no effects. If the text is the unique character of a text
-node which is itself the unique child of an
+The 'math(normal)' value has no effects. If the text is the unique character of
+a text node which is itself the unique child of an
 [mi element](https://www.w3.org/Math/draft-spec/chapter3.html#presm.mi)
-then 'auto' has the same effect as 'italic', otherwise it has no effects.
+then 'math(auto)' has the same effect as 'math(italic)', otherwise it has no
+effects.
 
-For all the other values, the transformed text is obtained by performing
+For all the other 'math(...)' values,
+the transformed text is obtained by performing
 conversion of each character that have a mapping in the
 [math-variant tables](math-variant-tables.md) according
 to the specified `math-variant` value.
@@ -138,23 +123,15 @@ to the specified `math-variant` value.
 If the text is the unique character of a text
 node which is itself the unique child of a 
 [MathML token](https://www.w3.org/Math/draft-spec/chapter3.html#presm.tokel)
-with 'bold', 'italic' or 'bold-italic' value then
+with 'math(bold)', 'math(italic)' or 'math(bold-italic)' value then
 UAs must instead render the original character with the corresponding font
 properties if the available fonts don't contain any glyph for the
 transformed character. UAs may decide to apply similar fallback for text of
 arbitrary length or location.
 
-When handling text with `math-variant` and `text-transform` values, the
-string conversion related to the latter value must be applied after the string
-conversion related to the former value.
-For example text in
-`<span style="text-transform: capitalize; math-variant: bold">a</mtext>` would
-render as U+1D41A MATHEMATICAL BOLD SMALL A rather than
-U+1D400 MATHEMATICAL BOLD CAPITAL A.
-
 ### Native implementation of the `mathvariant` attribute
 
 The `mathvariant` attribute can be implemented natively by relying on the
-`math-variant` property. For any MathML element accepting the `mathvariant`
+`text-transform` property. For any MathML element accepting the `mathvariant`
 attribute that has a `mathvariant` attribute with a valid value, set the CSS
-property on that element to the corresponding `math-variant` value.
+property on that element to the corresponding `text-transform` value.

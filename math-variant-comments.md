@@ -1,22 +1,23 @@
 # `math-variant` comments
 
-## Adding more values to `text-transform`
+## Mixing with capitalize/uppercase/lowercase, full-width, full-size-kana
 
-An alternative approach would be to add more values to the existing
-`text-transform` property. However, one may say that a separate property for
-math purpose is cleaner (isolate math-specific code) and that's how it is
-implemented in Gecko.
+It could make sense to render something like
+`<span style="text-transform: uppercase math(bold)">a</mtext>`
+as U+1D400 MATHEMATICAL BOLD CAPITAL A. However it's not clear
+whether there is a clear use case to mix `math(...)` values
+with capitalize/uppercase/lowercase, full-width or full-size-kana. At least
+that's not needed for MathML.
 
-## Priority between `math-variant` and `text-transform`
+For the record, Gecko relies on a separate `math-variant` property and
+string conversion related to `text-transform` is applied after the string
+conversion related to `math-variant`.
 
-There is not any concrete use case to mix the two properties, so an arbitrary
-(Gecko's) choice was made for the order in which transforms apply.
-
-## Handling of "bold", "italic" and "bold-italic" fallback
+## Handling of "math(bold)", "math(italic)" and "math(bold-italic)" fallback
 
 To render text, browsers split the rendering of text in multiple substrings
-(e.g. linebreak fragments) and an implementation of `text-transform` or
-`math-variant` may apply to this individual substrings. Gecko applies the
+(e.g. linebreak fragments) and an implementation of `text-transform` may apply
+to this individual substrings. Gecko applies the
 "bold", "italic" and "bold-italic" font property unless at least one character
 in the converted subtring can be rendered with available fonts. This
 algorithm is not ideal as it depends on how the string is split in subtrings.
@@ -34,6 +35,7 @@ determines whether `<mi>` has a single character. For example, Gecko treats
 MathML handles whitespace should probably be changed in future MathML
 specification so that it is not necessary to collapse whitespace. Hence this
 proposal ignores whitespace collapsing.
+See [issue 28](https://github.com/mathml-refresh/mathml/issues/28].
 
 ## Conflicts with deprecated `fontstyle` and `fontweight` attributes
 
@@ -44,6 +46,7 @@ it must "revert" the corresponding font style on the text (this is done in Gecko
 and Stylo). Support for these `fontstyle` and `fontweight` attributes should
 probably just be removed and hence the CSS code simplified to match the present
 proposal.
+See [issue 5](https://github.com/mathml-refresh/mathml/issues/5)
 
 ## Semantics versus Styling
 
@@ -62,18 +65,16 @@ disticntion
 and just focuses on a pragmatic approach to solve existing use cases via
 CSS. In order to facilitate implementations, it aligns on `text-transform` and
 in particular may contradict the MathML specification.
-However, it makes clear that the transformed text is exposed to assistive
-technology.
 
 ## Length of transformed text in UTF-16
 
-Contrary to `text-transform`, many of the transformed characters for
-`mathvariant` are in the Supplementary Multilingual Plane and hence require
+Contrary to other `text-transform` values, many of the transformed characters
+for `mathvariant` are in the Supplementary Multilingual Plane and hence require
 surrogate pairs to be encoded in UTF-16. Implementers should take that into
 account as that affects the length of the UTF-16 representation of the
-transformed text. 
+transformed text.
 
-## Handling of single-character `<mi>` for `math-variant: auto`
+## Handling of single-character `<mi>` for `text-transform: math(auto)`
 
 CSS resolver may
 not have access to the DOM so the special handling of single-character
