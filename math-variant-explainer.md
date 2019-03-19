@@ -106,7 +106,7 @@ on this proposal see [math-variant comments](math-variant-comments.md).
 
 The proposal is to extend the `text-transform` properties with new values:
 
-`none | [capitalize | uppercase | lowercase ] || full-width || full-size-kana | math(auto) | math(normal) | math(bold) | math(italic) | math(bold)-italic | math(double)-struck | math(bold)-fraktur | math(script) | math(bold)-script | math(fraktur) | math(sans)-serif | math(bold)-sans-serif | math(sans)-serif-italic | math(sans)-serif-bold-italic | math(monospace) | math(initial) | math(tailed) | math(looped) | math(stretched)`
+`none | [capitalize | uppercase | lowercase ] || full-width || full-size-kana | math(auto) | math(normal) | math(bold) | math(italic) | math(bold-italic) | math(double-struck) | math(bold-fraktur) | math(script) | math(bold-script) | math(fraktur) | math(sans-serif) | math(bold-sans-serif) | math(sans-serif-italic) | math(sans-serif-bold-italic) | math(monospace) | math(initial) | math(tailed) | math(looped) | math(stretched)`
 
 The 'math(normal)' value has no effects. If the text is the unique character of
 a text node which is itself the unique child of an
