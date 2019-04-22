@@ -12,7 +12,7 @@ on this proposal see [math-variant comments](math-variant-comments.md).
 
 ## Examples
 
-* `<span style="text-transform: math(fraktur)">A</span>` would render the same as
+* `<span style="text-transform: math-fraktur">A</span>` would render the same as
   `<span>𝔄</span>` or `<span>&#x1D504;</span>`
   (U+1D504 MATHEMATICAL FRAKTUR CAPITAL A).
 
@@ -26,10 +26,10 @@ on this proposal see [math-variant comments](math-variant-comments.md).
   ![\exp{\mathbf{A}} \in {{\mathfrak{gl}}_n\left(\mathbb R\right)}](/math-variant-latex-example.png)
 
 * A simple math formula like
-  `<span style="text-transform: math(italic)" style>x + y</span>` would have x, y in
+  `<span style="text-transform: math-italic" style>x + y</span>` would have x, y in
    italic but not operator + (contrary to `font-style: italic`).
 
-* `<span style="font-family: STIX Math; text-transform: math(bold)">F</span>` would use
+* `<span style="font-family: STIX Math; text-transform: math-bold">F</span>` would use
   the glyph for U+1D46D MATHEMATICAL BOLD ITALIC CAPITAL F contained in the
   STIX Math font. It would not try to look into the (non-existent) STIX Math
   bold font or emulate bold style from the F glyph of the STIX Math font.
@@ -39,7 +39,7 @@ on this proposal see [math-variant comments](math-variant-comments.md).
 
 * Polyfills can emulate MathML behavior of
   `<mstyle mathvariant="double-struck">...</mstyle>`
-  via `mstyle[mathvariant="double-struck"] { text-transform: math(double-struck); }`.
+  via `mstyle[mathvariant="double-struck"] { text-transform: math-double-struck; }`.
   More generally, native implementations could directly map the MathML
   `mathvariant` attribute to the CSS `text-transform` property.
 
@@ -106,15 +106,15 @@ on this proposal see [math-variant comments](math-variant-comments.md).
 
 The proposal is to extend the `text-transform` properties with new values:
 
-`none | [capitalize | uppercase | lowercase ] || full-width || full-size-kana | math(auto) | math(bold) | math(italic) | math(bold-italic) | math(double-struck) | math(bold-fraktur) | math(script) | math(bold-script) | math(fraktur) | math(sans-serif) | math(bold-sans-serif) | math(sans-serif-italic) | math(sans-serif-bold-italic) | math(monospace) | math(initial) | math(tailed) | math(looped) | math(stretched)`
+`none | [capitalize | uppercase | lowercase ] || full-width || full-size-kana | math-auto | math-bold | math-italic | math-bold-italic | math-double-struck | math-bold-fraktur | math-script | math-bold-script | math-fraktur | math-sans-serif | math-bold-sans-serif | math-sans-serif-italic | math-sans-serif-bold-italic | math-monospace | math-initial | math-tailed | math-looped | math-stretched`
 
 If the text is the unique character of
 a text node which is itself the unique child of an
 [mi element](https://www.w3.org/Math/draft-spec/chapter3.html#presm.mi)
-then 'math(auto)' has the same effect as 'math(italic)', otherwise it has no
+then 'math-auto' has the same effect as 'math-italic', otherwise it has no
 effects.
 
-For all the other 'math(...)' values,
+For all the other 'math-...' values,
 the transformed text is obtained by performing
 conversion of each character that have a mapping in the
 [math-variant tables](math-variant-tables.md) according
@@ -123,7 +123,7 @@ to the specified `math-variant` value.
 If the text is the unique character of a text
 node which is itself the unique child of a 
 [MathML token](https://www.w3.org/Math/draft-spec/chapter3.html#presm.tokel)
-with 'math(bold)', 'math(italic)' or 'math(bold-italic)' value then
+with 'math-bold', 'math-italic' or 'math-bold-italic' value then
 UAs must instead render the original character with the corresponding font
 properties if the available fonts don't contain any glyph for the
 transformed character. UAs may decide to apply similar fallback for text of

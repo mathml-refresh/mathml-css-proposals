@@ -3,9 +3,9 @@
 ## Mixing with capitalize/uppercase/lowercase, full-width, full-size-kana
 
 It could make sense to render something like
-`<span style="text-transform: uppercase math(bold)">a</mtext>`
+`<span style="text-transform: uppercase math-bold">a</mtext>`
 as U+1D400 MATHEMATICAL BOLD CAPITAL A. However it's not clear
-whether there is a clear use case to mix `math(...)` values
+whether there is a clear use case to mix `math-...` values
 with capitalize/uppercase/lowercase, full-width or full-size-kana. At least
 that's not needed for MathML.
 
@@ -13,7 +13,7 @@ For the record, Gecko relies on a separate `math-variant` property and
 string conversion related to `text-transform` is applied after the string
 conversion related to `math-variant`.
 
-## Handling of "math(bold)", "math(italic)" and "math(bold-italic)" fallback
+## Handling of "math-bold", "math-italic" and "math-bold-italic" fallback
 
 To render text, browsers split the rendering of text in multiple substrings
 (e.g. linebreak fragments) and an implementation of `text-transform` may apply
@@ -74,10 +74,10 @@ surrogate pairs to be encoded in UTF-16. Implementers should take that into
 account as that affects the length of the UTF-16 representation of the
 transformed text.
 
-## Handling of single-character `<mi>` for `text-transform: math(auto)`
+## Handling of single-character `<mi>` for `text-transform: math-auto`
 
 CSS resolver may
 not have access to the DOM so the special handling of single-character
 `<mi>` has to be handled somewhere else. In particular the computed value is
 the value on single-character `<mi>` or returned by the
-`getComputedStyle()` on such an element remains "auto".
+`getComputedStyle()` on such an element remains "math-auto".
