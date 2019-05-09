@@ -140,7 +140,7 @@ such constraints into consideration.
   <tbody>
     <tr><th>Name:</th><td>math-script-level'</td></tr>
     <tr><th>Value:</th><td>auto | add &lt;integer&gt; | &lt;integer&gt;</td></tr>
-    <tr><th>Initial:</th><td>inline</td></tr>
+    <tr><th>Initial:</th><td>0</td></tr>
     <tr><th>Applies to:</th><td>All elements</td></tr>
     <tr><th>Inherited:</th><td>yes</td></tr>
     <tr><th>Percentages:</th><td>n/a</td></tr>
@@ -210,6 +210,7 @@ MathML elements.
 
 math {
   math-style: inline;
+  math-script-level: 0;
 }
 math[display="block"] {
   math-style: display;
