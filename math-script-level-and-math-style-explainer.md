@@ -12,7 +12,7 @@ on this proposal see
 ## Examples
 
 * `<div class="my-underover"><div>Base</div><div>Overscript</div><div>Underscript</div></div>`
-  and `.my-underover > :not(:first-child) { math-script-level: add 1; }` would
+  and `.my-underover > :not(:first-child) { math-script-level: add(1); }` would
   scale down the font size in under and over scripts.
 
 * In the previous example, one could do
@@ -36,7 +36,7 @@ on this proposal see
 * Polyfills and native implementations can emulate MathML behavior such as
   `<mstyle displaystyle="true">...</mstyle>`,
   `<mstyle scriptlevel="2">...</mstyle>` or `<mstyle scriptlevel="+3">...</mstyle>` by mapping to `math-style: display`, `math-script-level: 2;` and
-  `math-script-level: add 3;` respectively.
+  `math-script-level: add(3);` respectively.
 
 ## Rationale
 
@@ -139,7 +139,7 @@ such constraints into consideration.
 <table>
   <tbody>
     <tr><th>Name:</th><td>math-script-level'</td></tr>
-    <tr><th>Value:</th><td>auto | add &lt;integer&gt; | &lt;integer&gt;</td></tr>
+    <tr><th>Value:</th><td>auto | add(&lt;integer&gt;) | &lt;integer&gt;</td></tr>
     <tr><th>Initial:</th><td>0</td></tr>
     <tr><th>Applies to:</th><td>All elements</td></tr>
     <tr><th>Inherited:</th><td>yes</td></tr>
@@ -160,7 +160,7 @@ value of `math-style` is 'inline' then the computed value of
 `math-script-level` is the inherited value plus one.
 
 If the specified value of `math-script-level` is of the form
-'add &lt;integer&gt;' then
+'add(&lt;integer&gt;)' then
 the computed value of `math-script-level` is the inherited value
 plus the specified integer.
 
@@ -196,8 +196,8 @@ apply after the change due to `math-script-level`.
 The proposal allows to partially implement the `display`, `displaystyle` and
 `scriptlevel` attributes as follows:
 
-* Map `scriptlevel="+U"` to 'math-script-level: add U' (where U is an [unsigned integer](https://www.w3.org/Math/draft-spec/chapter2.html#type.unsigned-integer)).
-* Map `scriptlevel="-U"` to 'math-script-level: add -U' (where U is an [unsigned integer](https://www.w3.org/Math/draft-spec/chapter2.html#type.unsigned-integer)).
+* Map `scriptlevel="+U"` to 'math-script-level: add(U)' (where U is an [unsigned integer](https://www.w3.org/Math/draft-spec/chapter2.html#type.unsigned-integer)).
+* Map `scriptlevel="-U"` to 'math-script-level: add(-U)' (where U is an [unsigned integer](https://www.w3.org/Math/draft-spec/chapter2.html#type.unsigned-integer)).
 * Map `scriptlevel="U"` to 'math-script-level: U' (where U is an [unsigned integer](https://www.w3.org/Math/draft-spec/chapter2.html#type.unsigned-integer)).
 
 Then add rules equivalent to the following user agent stylesheet for MathML.
@@ -241,7 +241,7 @@ mfrac > * {
   math-style: inline;
 }
 mroot > :not(:first-child) {
-  math-script-level: add 2;
+  math-script-level: add(2);
   math-style: inline;
 }
 msub > :not(:first-child),
@@ -251,7 +251,7 @@ mmultiscripts > :not(:first-child),
 munder > :not(:first-child),
 mover > :not(:first-child),
 munderover > :not(:first-child) {
-  math-script-level: add 1;
+  math-script-level: add(1);
   math-style: inline;
 }
 </pre>
