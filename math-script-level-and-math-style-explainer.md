@@ -175,10 +175,10 @@ is obtained by multiplying the inherited value of `font-size` by the nonzero
 scale factor S<sub>A,B</sub>, defined recursively as follows:
 * S<sub>p,p</sub> = 1 for every integer p.
 * S<sub>0,1</sub> = `scriptPercentScaleDown` if a nonzero value is provided by
-  the OpenType MATH table of the current font. Otherwise use the suggested
+  the OpenType MATH table of the inherited font. Otherwise use the suggested
   default S<sub>0,1</sub> = 0.8.
 * S<sub>0,2</sub> = `scriptScriptPercentScaleDown` if a nonzero value is
-  provided by the OpenType MATH table of the current font. Otherwise use the
+  provided by the OpenType MATH table of the inherited font. Otherwise use the
   suggested default S<sub>0,2</sub> = 0.6.
 * S<sub>1,2</sub> = S<sub>0,2</sub> / S<sub>0,1</sub>.
 * S<sub>p,p+1</sub> = 0.71 for every integer p ≠ 0, 1.
