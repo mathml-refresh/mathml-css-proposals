@@ -170,24 +170,28 @@ then the computed value of `math-script-level` is set to the specified integer.
 If `font-size` is specified or if the specified value of `math-script-level`
 is `initial` then `math-script-level` does not affect the computed value of
 `font-size`.
-Otherwise, if A is the inherited `math-script-level` and B the computed
-`math-script-level` then the computed value of `font-size`
-is obtained by multiplying the inherited value of `font-size` by the nonzero
-scale factor S<sub>A,B</sub>, defined recursively as follows:
-* S<sub>p,p</sub> = 1 for every integer p.
-* S<sub>0,1</sub> = `scriptPercentScaleDown` if a nonzero value is provided by
-  the OpenType MATH table of the inherited font. Otherwise use the suggested
-  default S<sub>0,1</sub> = 0.8.
-* S<sub>0,2</sub> = `scriptScriptPercentScaleDown` if a nonzero value is
-  provided by the OpenType MATH table of the inherited font. Otherwise use the
-  suggested default S<sub>0,2</sub> = 0.6.
-* S<sub>1,2</sub> = S<sub>0,2</sub> / S<sub>0,1</sub>.
-* S<sub>p,p+1</sub> = 0.71 for every integer p ≠ 0, 1.
-* S<sub>p,q</sub> is the product of the S<sub>i,i+1</sub>'s
-  where i ranges from p to
-  q - 1 for every integers p, q such that q ≥ p + 2 and (p,q) ≠ (0,2).
-* S<sub>p,q</sub> = 1 / S<sub>q,p</sub> for every integers p, q such that
-  q < p.
+Otherwise, the computed value of `font-size` is obtained by multiplying the
+inherited value of `font-size` by a nonzero scale factor calculated by the
+following procedure:
+
+1. Let A be the inherited `math-script-level`, B the computed
+  `math-script-level`, C be 0.71 and S be 1.0
+  1. If A = B then return S.
+  2. If B < A, swap A and B and set `InvertScaleFactor` to true.
+  3. Otherwise B > A and set `InvertScaleFactor` to false.
+2. Let E be B - A > 0.
+3. If the inherited font has an OpenType MATH table:
+  1. Read `scriptPercentScaleDown` and fallback to C if the MathVariants table is absent or provides a null value.
+  2. Read `scriptScriptPercentScaleDown` and fallback to C<sup>2</sup> if the MathVariants table is absent or provides a null value.
+  3. If A ≤ 0 and B ≥ 2 then multiply S by `scriptScriptPercentScaleDown` and
+    decrement E by 2.
+  4. Otherwise if A > 0 and B ≥ 2 then multiply S by
+    `scriptScriptPercentScaleDown` / `scriptPercentScaleDown` and
+    decrement E by 1.
+  5. Otherwise if A ≤ 0 and B < 2 then multiply S by `scriptPercentScaleDown`
+    and decrement E by 1.
+4. Multiply S by C<sup>E</sup>
+5. Return S if `InvertScaleFactor` is false and 1/S otherwise.
 
 The clamping of `font-size` implied by `font-min-size` and `font-max-size` must
 apply after the change due to `math-script-level`.
