@@ -176,19 +176,19 @@ following procedure:
 
 1. Let A be the inherited `math-script-level`, B the computed
   `math-script-level`, C be 0.71 and S be 1.0
-  1. If A = B then return S.
-  2. If B < A, swap A and B and set `InvertScaleFactor` to true.
-  3. Otherwise B > A and set `InvertScaleFactor` to false.
+  * If A = B then return S.
+  * If B < A, swap A and B and set `InvertScaleFactor` to true.
+  * Otherwise B > A and set `InvertScaleFactor` to false.
 2. Let E be B - A > 0.
 3. If the inherited font has an OpenType MATH table:
-  1. Read `scriptPercentScaleDown` and fallback to C if the MathVariants table is absent or provides a null value.
-  2. Read `scriptScriptPercentScaleDown` and fallback to C<sup>2</sup> if the MathVariants table is absent or provides a null value.
-  3. If A ≤ 0 and B ≥ 2 then multiply S by `scriptScriptPercentScaleDown` and
+  * Read `scriptPercentScaleDown` and fallback to C if the MathVariants table is absent or provides a null value.
+  * Read `scriptScriptPercentScaleDown` and fallback to C<sup>2</sup> if the MathVariants table is absent or provides a null value.
+  * If A ≤ 0 and B ≥ 2 then multiply S by `scriptScriptPercentScaleDown` and
     decrement E by 2.
-  4. Otherwise if A > 0 and B ≥ 2 then multiply S by
+  * Otherwise if A > 0 and B ≥ 2 then multiply S by
     `scriptScriptPercentScaleDown` / `scriptPercentScaleDown` and
     decrement E by 1.
-  5. Otherwise if A ≤ 0 and B < 2 then multiply S by `scriptPercentScaleDown`
+  * Otherwise if A ≤ 0 and B < 2 then multiply S by `scriptPercentScaleDown`
     and decrement E by 1.
 4. Multiply S by C<sup>E</sup>
 5. Return S if `InvertScaleFactor` is false and 1/S otherwise.
