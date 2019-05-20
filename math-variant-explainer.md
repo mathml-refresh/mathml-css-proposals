@@ -108,11 +108,8 @@ The proposal is to extend the `text-transform` properties with new values:
 
 `none | [capitalize | uppercase | lowercase ] || full-width || full-size-kana | math-auto | math-bold | math-italic | math-bold-italic | math-double-struck | math-bold-fraktur | math-script | math-bold-script | math-fraktur | math-sans-serif | math-bold-sans-serif | math-sans-serif-italic | math-sans-serif-bold-italic | math-monospace | math-initial | math-tailed | math-looped | math-stretched`
 
-If the text is the unique character of
-a text node which is itself the unique child of an
-[mi element](https://www.w3.org/Math/draft-spec/chapter3.html#presm.mi)
-then 'math-auto' has the same effect as 'math-italic', otherwise it has no
-effects.
+On text nodes containing a unique character, 'math-auto' has the same
+effect as 'math-italic', otherwise it has no effects.
 
 For all the other 'math-...' values,
 the transformed text is obtained by performing
@@ -120,14 +117,9 @@ conversion of each character that have a mapping in the
 [math-variant tables](math-variant-tables.md) according
 to the specified `math-variant` value.
 
-If the text is the unique character of a text
-node which is itself the unique child of a 
-[MathML token](https://www.w3.org/Math/draft-spec/chapter3.html#presm.tokel)
-with 'math-bold', 'math-italic' or 'math-bold-italic' value then
-UAs must instead render the original character with the corresponding font
-properties if the available fonts don't contain any glyph for the
-transformed character. UAs may decide to apply similar fallback for text of
-arbitrary length or location.
+UAs may decide to rely on italic, bold and bold-italic font-level properties
+when available fonts lack the proper glyphs to perform 'math-auto',
+'math-italic', 'math-bold', 'math-bold-italic' character-level transforms.
 
 ### Native implementation of the `mathvariant` attribute
 
