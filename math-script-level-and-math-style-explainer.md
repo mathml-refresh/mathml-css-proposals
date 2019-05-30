@@ -185,10 +185,10 @@ following procedure:
   * Read `scriptScriptPercentScaleDown` and fallback to C<sup>2</sup> if the MathVariants table is absent or provides a null value.
   * If A ≤ 0 and B ≥ 2 then multiply S by `scriptScriptPercentScaleDown` and
     decrement E by 2.
-  * Otherwise if A > 0 and B ≥ 2 then multiply S by
+  * Otherwise if A = 1 then multiply S by
     `scriptScriptPercentScaleDown` / `scriptPercentScaleDown` and
     decrement E by 1.
-  * Otherwise if A ≤ 0 and B < 2 then multiply S by `scriptPercentScaleDown`
+  * Otherwise if B = 1 then multiply S by `scriptPercentScaleDown`
     and decrement E by 1.
 4. Multiply S by C<sup>E</sup>
 5. Return S if `InvertScaleFactor` is false and 1/S otherwise.
