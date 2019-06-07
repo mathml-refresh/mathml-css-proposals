@@ -193,9 +193,6 @@ following procedure:
 4. Multiply S by C<sup>E</sup>
 5. Return S if `InvertScaleFactor` is false and 1/S otherwise.
 
-The clamping of `font-size` implied by `font-min-size` and `font-max-size` must
-apply after the change due to `math-script-level`.
-
 ### Native implementations of `display`, `displaystyle` and `scriptlevel`
 
 The proposal allows to partially implement the `display`, `displaystyle` and
