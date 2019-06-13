@@ -86,10 +86,7 @@ on this proposal see
 
 * OpenType math fonts have values about how the script should scale down when
   going from script level 0 to script level 1 (`scriptPercentScaleDown`) or 2
-  (`scriptScriptPercentScaleDown`). Although this propopal simply uses constant
-  values, in theory the evolution of font-size could depend on these
-  parameters. If they are considered in the future, having actual script level
-  values would help implementers.
+  (`scriptScriptPercentScaleDown`).
 
 ## Status in Web Engines
 
@@ -110,150 +107,14 @@ on this proposal see
 
 ### CSS `math-style` property
 
-<table>
-  <tbody>
-    <tr><th>Name:</th><td>'math-style'</td></tr>
-    <tr><th>Value:</th><td>display | inline</td></tr>
-    <tr><th>Initial:</th><td>inline</td></tr>
-    <tr><th>Applies to:</th><td>All elements</td></tr>
-    <tr><th>Inherited:</th><td>yes</td></tr>
-    <tr><th>Percentages:</th><td>n/a</td></tr>
-    <tr><th>Media:</th><td>visual</td></tr>
-    <tr><th>Computed value:</th><td>specified keyword</td></tr>
-    <tr><th>Canonical order:</th><td>n/a</td></tr>
-    <tr><th>Animation type:</th><td>not animatable</td></tr>
-  </tbody>
-</table>
-
-If the value of `math-style` is 'inline', the math layout on descendants
-should try to minimize the
-[logical height](https://drafts.csswg.org/css-writing-modes-4/#extent).
-This includes how `font-size` is changed when `math-script-level` is 'auto'
-as well
-miscelleanous layout rules described for the `displaystyle` attribute of MathML.
-If the value of `math-style` is 'display', the math layout should not take
-such constraints into consideration.
+See https://mathml-refresh.github.io/mathml-core/#the-math-style-property
 
 ### CSS `math-script-level` property
 
-<table>
-  <tbody>
-    <tr><th>Name:</th><td>math-script-level'</td></tr>
-    <tr><th>Value:</th><td>auto | add(&lt;integer&gt;) | &lt;integer&gt;</td></tr>
-    <tr><th>Initial:</th><td>0</td></tr>
-    <tr><th>Applies to:</th><td>All elements</td></tr>
-    <tr><th>Inherited:</th><td>yes</td></tr>
-    <tr><th>Percentages:</th><td>n/a</td></tr>
-    <tr><th>Media:</th><td>visual</td></tr>
-    <tr><th>Computed value:</th><td>see individual properties</td></tr>
-    <tr><th>Canonical order:</th><td>n/a</td></tr>
-    <tr><th>Animation type:</th><td>not animatable</td></tr>
-  </tbody>
-</table>
-
-If the specified value of `math-script-level` is 'auto' and the inherited
-value of `math-style` is 'display' then the computed value of
-`math-script-level` is the inherited value.
-
-If the specified value of `math-script-level` is 'auto' and the inherited
-value of `math-style` is 'inline' then the computed value of
-`math-script-level` is the inherited value plus one.
-
-If the specified value of `math-script-level` is of the form
-'add(&lt;integer&gt;)' then
-the computed value of `math-script-level` is the inherited value
-plus the specified integer.
-
-If the specified value of `math-script-level` is of the form '&lt;integer&gt;'
-then the computed value of `math-script-level` is set to the specified integer.
-
-If `font-size` is specified or if the specified value of `math-script-level`
-is `initial` then `math-script-level` does not affect the computed value of
-`font-size`.
-Otherwise, the computed value of `font-size` is obtained by multiplying the
-inherited value of `font-size` by a nonzero scale factor calculated by the
-following procedure:
-
-1. Let A be the inherited `math-script-level`, B the computed
-  `math-script-level`, C be 0.71 and S be 1.0
-  * If A = B then return S.
-  * If B < A, swap A and B and set `InvertScaleFactor` to true.
-  * Otherwise B > A and set `InvertScaleFactor` to false.
-2. Let E be B - A > 0.
-3. If the inherited font has an OpenType MATH table:
-  * Read `scriptPercentScaleDown` and fallback to C if the MathVariants table is absent or provides a null value.
-  * Read `scriptScriptPercentScaleDown` and fallback to C<sup>2</sup> if the MathVariants table is absent or provides a null value.
-  * If A ≤ 0 and B ≥ 2 then multiply S by `scriptScriptPercentScaleDown` and
-    decrement E by 2.
-  * Otherwise if A = 1 then multiply S by
-    `scriptScriptPercentScaleDown` / `scriptPercentScaleDown` and
-    decrement E by 1.
-  * Otherwise if B = 1 then multiply S by `scriptPercentScaleDown`
-    and decrement E by 1.
-4. Multiply S by C<sup>E</sup>
-5. Return S if `InvertScaleFactor` is false and 1/S otherwise.
+See https://mathml-refresh.github.io/mathml-core/#the-math-style-property
 
 ### Native implementations of `display`, `displaystyle` and `scriptlevel`
 
-The proposal allows to partially implement the `display`, `displaystyle` and
-`scriptlevel` attributes as follows:
-
-* Map `scriptlevel="+U"` to 'math-script-level: add(U)' (where U is an [unsigned integer](https://www.w3.org/Math/draft-spec/chapter2.html#type.unsigned-integer)).
-* Map `scriptlevel="-U"` to 'math-script-level: add(-U)' (where U is an [unsigned integer](https://www.w3.org/Math/draft-spec/chapter2.html#type.unsigned-integer)).
-* Map `scriptlevel="U"` to 'math-script-level: U' (where U is an [unsigned integer](https://www.w3.org/Math/draft-spec/chapter2.html#type.unsigned-integer)).
-
-Then add rules equivalent to the following user agent stylesheet for MathML.
-Note that some rendering engines do not allow universal selectors in their
-user agent stylesheets and so such rules must be expanded to list all possible
-MathML elements.
-
-<pre>
-@namespace url(http://www.w3.org/1998/Math/MathML);
-
-math {
-  math-style: inline;
-  math-script-level: initial;
-}
-math[display="block"] {
-  math-style: display;
-}
-math[display="inline"] {
-  math-style: inline;
-}
-math[displaystyle="false"] {
-  math-style: inline;
-}
-math[displaystyle="true"] {
-  math-style: display;
-}
-mtable {
-  math-style: inline;
-}
-mtable[displaystyle="true"] {
-  math-style: display;
-}
-mstyle[displaystyle="false"] {
-  math-style: inline;
-}
-mstyle[displaystyle="true"] {
-  math-style: display;
-}
-mfrac > * {
-  math-script-level: auto;
-  math-style: inline;
-}
-mroot > :not(:first-child) {
-  math-script-level: add(2);
-  math-style: inline;
-}
-msub > :not(:first-child),
-msup > :not(:first-child),
-msubsup > :not(:first-child),
-mmultiscripts > :not(:first-child),
-munder > :not(:first-child),
-mover > :not(:first-child),
-munderover > :not(:first-child) {
-  math-script-level: add(1);
-  math-style: inline;
-}
-</pre>
+See https://mathml-refresh.github.io/mathml-core/#attribute-display,
+    https://mathml-refresh.github.io/mathml-core/#attribute-displaystyle
+and https://mathml-refresh.github.io/mathml-core/#attribute-scriptlevel

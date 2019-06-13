@@ -104,27 +104,8 @@ on this proposal see [math-variant comments](math-variant-comments.md).
 
 ### New CSS `text-transform` values
 
-The proposal is to extend the `text-transform` properties with new values:
-
-`none | [capitalize | uppercase | lowercase ] || full-width || full-size-kana | math-auto | math-bold | math-italic | math-bold-italic | math-double-struck | math-bold-fraktur | math-script | math-bold-script | math-fraktur | math-sans-serif | math-bold-sans-serif | math-sans-serif-italic | math-sans-serif-bold-italic | math-monospace | math-initial | math-tailed | math-looped | math-stretched`
-
-On text nodes containing a unique character, 'math-auto' has the same
-effect as 'math-italic', otherwise it has no effects.
-
-For all the other 'math-...' values,
-the transformed text is obtained by performing
-conversion of each character that have a mapping in the
-[math-variant tables](math-variant-tables.md) according
-to the specified `math-variant` value.
-
-UAs may decide to rely on italic, bold and bold-italic font-level properties
-when available fonts lack the proper glyphs to perform 'math-auto',
-'math-italic', 'math-bold', 'math-bold-italic' character-level transforms.
+See https://mathml-refresh.github.io/mathml-core/#new-text-transform-values
 
 ### Native implementation of the `mathvariant` attribute
 
-The `mathvariant` attribute can be implemented natively by relying on the
-`text-transform` property. For any MathML element accepting the `mathvariant`
-attribute that has a `mathvariant` attribute with a valid value, set the CSS
-property on that element to the corresponding `text-transform` value.
-The `normal` value is mapped to 'none'.
+See https://mathml-refresh.github.io/mathml-core/#attribute-mathvariant
