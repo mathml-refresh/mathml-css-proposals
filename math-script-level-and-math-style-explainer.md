@@ -111,7 +111,7 @@ See https://mathml-refresh.github.io/mathml-core/#the-math-style-property
 
 ### CSS `math-script-level` property
 
-See https://mathml-refresh.github.io/mathml-core/#the-math-style-property
+See https://mathml-refresh.github.io/mathml-core/#the-math-script-level-property
 
 ### Native implementations of `display`, `displaystyle` and `scriptlevel`
 
